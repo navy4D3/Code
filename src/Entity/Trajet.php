@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-// use App\Document\GoogleData;
 use App\Enum\Statut;
 use App\Repository\TrajetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -47,13 +46,6 @@ class Trajet
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'trajets')]
     private Collection $participants;
-
-    // #[ORM\ManyToOne(inversedBy: 'trajetsEnTantQueChauffeur')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private ?User $chauffeur = null;
-
-    // #[ORM\Column]
-    // private ?string $googleDataId;
 
     #[ORM\Column]
     private ?int $dureeInSeconds = null;
@@ -210,30 +202,6 @@ class Trajet
 
         return $result;
     }
-
-    // public function getChauffeur(): ?User
-    // {
-    //     return $this->chauffeur;
-    // }
-
-    // public function setChauffeur(User $chauffeur): static
-    // {
-    //     $this->chauffeur = $chauffeur;
-
-    //     return $this;
-    // }
-
-    // public function getGoogleDataId(): ?array
-    // {
-    //     return $this->googleDataId;
-    // }
-
-    // public function setGoogleDataId(string $googleDataId): static
-    // {
-    //     $this->googleDataId = $googleDataId;
-
-    //     return $this;
-    // }
 
     public function getDureeInSeconds(): ?int
     {

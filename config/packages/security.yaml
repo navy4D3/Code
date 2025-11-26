@@ -10,7 +10,6 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
-        
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -49,12 +48,11 @@ security:
         - { path: ^/mentions-legales, roles: PUBLIC_ACCESS }
         - { path: ^/cgu, roles: PUBLIC_ACCESS }
         - { path: ^/test-mail, roles: PUBLIC_ACCESS }
-        
         - { path: ^/mentions-legales, roles: PUBLIC_ACCESS }
-        - { path: ^/test-mongo, roles: PUBLIC_ACCESS } #a enlever
 
         # 🔒 Toutes les autres pages nécessitent d'être connecté
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/employe, roles: ROLE_EMPLOYE }
         - { path: ^/, roles: ROLE_USER }
         
 

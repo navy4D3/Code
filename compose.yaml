@@ -18,7 +18,7 @@ services:
     depends_on:
      - php
     networks:
-      - app_network           
+      - app_network                      
 
   php:
     # user: '${USER_ID}:${GROUP_ID}'
@@ -63,14 +63,10 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-    networks:
-      - app_network
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-    networks:
-      - app_network
     volumes:
       - mongodb_data:/data/db
+    networks:
+      - app_network
     
   mongo-express:
     image: mongo-express
@@ -95,6 +91,7 @@ services:
       - "8082:80"
     networks:
       - app_network         
+        
 
 networks:
   app_network:
@@ -130,7 +127,3 @@ networks:
 volumes:
   database_data2:      
   mongodb_data:
-###< doctrine/mongodb-odm-bundle ###
-  database_data2:      
-  mongodb_data:
-###< doctrine/mongodb-odm-bundle ###

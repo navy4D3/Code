@@ -83,27 +83,18 @@ class TrajetSearchService
         }
     
         return $points;
-        // Fonction pour décoder les polylines Google en tableau de ['lat' => ..., 'lng' => ...]
-        // => peux t’en fournir une version PHP si besoin
     }
 
     public function findMatchingTrips(array $startCoords, array $endCoords, $date, $nbPlace, string $currentUserId = ""): array
     {
-
-        // $trips = $this->trajetRepository->findBy(['statut' => Statut::from('Planifié')]); // ou mieux : les trajets à venir seulement
-        
         $isOnDate = true;
         $trips = $this->trajetRepository->findByDateStatutAndPlaces($date, $nbPlace, $isOnDate, $currentUserId);
         if (empty($trips)) {
-            // chercher date sur 3 jours glissant
-            // $trips = $this->trajetRepository->findByRangeDateStatutAndPlaces($date, 'Planifié', $nbPlace, $currentUserId);
-            
             $isOnDate = false;
             $trips = $this->trajetRepository->findByDateStatutAndPlaces($date, $nbPlace, $isOnDate, $currentUserId);
 
         }
         
-        //inclure une logique pour donner le/les trajets convenable a des dates différentes, avant sur 3 jours glissant, et total si toujours rien sur 3 jours glissant
         $matchingTrips = [];
 
         foreach ($trips as $trip) {
@@ -171,19 +162,19 @@ class TrajetSearchService
 
     private function findNearestPoint(array $target, array $points): ?array
     {
-    $minDistance = PHP_INT_MAX;
-    $closestIndex = null;
+        $minDistance = PHP_INT_MAX;
+        $closestIndex = null;
 
-    foreach ($points as $index => $point) {
-        $distance = $this->haversineDistance($target, $point);
-        if ($distance < $minDistance) {
-            $minDistance = $distance;
-            $closestIndex = $index;
+        foreach ($points as $index => $point) {
+            $distance = $this->haversineDistance($target, $point);
+            if ($distance < $minDistance) {
+                $minDistance = $distance;
+                $closestIndex = $index;
+            }
         }
-    }
 
-    // Optionnel : ne considérer que les points à moins de 10 km
-    $minDistance < 50 ? $closestIndex : null;
-    return ['index' => $closestIndex, 'distance' => round($minDistance, 1)];
+        // Optionnel : ne considérer que les points à moins de 10 km
+        $minDistance < 50 ? $closestIndex : null;
+        return ['index' => $closestIndex, 'distance' => round($minDistance, 1)];
     }
 }
