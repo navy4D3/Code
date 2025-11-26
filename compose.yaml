@@ -20,6 +20,27 @@ services:
     networks:
       - app_network                      
 
+  php:
+    # user: '${USER_ID}:${GROUP_ID}'
+    build: ./docker/php #definis le chemin vers le fichier de build
+    volumes:
+      - .:/var/www:delegated #lien entre dossier local et volume Docker
+    depends_on:
+      - database
+    networks:
+      - app_network
+
+  nginx:
+    build: ./docker/nginx
+    ports:
+     - "8000:80"
+    volumes:
+      - ./public:/var/www/public:delegated
+    depends_on:
+     - php
+    networks:
+      - app_network           
+
   database:
     image: mariadb:10.7.3
     environment:
@@ -71,6 +92,34 @@ services:
     networks:
       - app_network         
         
+
+networks:
+  app_network:
+      - mongodb_data:/data/db
+    
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
+      ME_CONFIG_BASICAUTH_ENABLED: ${ME_CONFIG_BASICAUTH_ENABLED}
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
+    networks:
+      - app_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: ${PMA_HOST}
+      PMA_USER: ${PMA_USER}
+      PMA_PASSWORD: ${PMA_PASSWORD}
+    ports:
+      - "8082:80"
+    networks:
+      - app_network         
 
 networks:
   app_network:
