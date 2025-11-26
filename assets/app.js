@@ -12,64 +12,6 @@ const navbarBtns = document.getElementById('navbar-btns');
 const navbarCloseMobileMenuBtn = document.getElementById('navbar-close-mobile-menu');
 const navbarLogo = document.querySelector('.navbar_logo');
 
-function animateToggle(element, animationClass = 'fade-slide-down') {
-    if (element.classList.contains('show')) {
-        element.classList.remove('show');
-        element.addEventListener('transitionend', function handleTransition() {
-            element.classList.remove(animationClass); // clean si besoin
-            element.style.display =  "none";
-            element.removeEventListener('transitionend', handleTransition);
-        });
-    } else {
-        element.style.display = "flex";
-        element.classList.add(animationClass);
-        requestAnimationFrame(() => {
-            element.classList.add('show');
-        });
-    }
-}
-
-function animateToggle2(el, animationClass = 'fade', displayType = 'flex') {
-    return new Promise((resolve) => {
-        const isHidden = getComputedStyle(el).display === 'none';
-
-        // Cas : AFFICHER l'élément
-        if (isHidden) {
-            el.style.display = displayType;
-            el.classList.add(animationClass);
-
-            // Forcer un reflow pour permettre à la transition de se déclencher
-            requestAnimationFrame(() => {
-                el.classList.add('show');
-            });
-
-            el.addEventListener('transitionend', function handler(e) {
-                if (e.target === el) {
-                    el.removeEventListener('transitionend', handler);
-                    resolve();
-                }
-            });
-        }
-
-        // Cas : MASQUER l'élément
-        else {
-            el.classList.remove('show');
-
-            el.addEventListener('transitionend', function handler(e) {
-                if (e.target === el) {
-                    el.style.display = 'none';
-                    el.classList.remove(animationClass);
-                    el.removeEventListener('transitionend', handler);
-                    resolve();
-                }
-            });
-        }
-    });
-}
-
-
-
-
 if (navbarMenuIcon) {
     navbarMenuIcon.addEventListener('click', async function() {   
         navbarMenuIcon.style.display = "none";
@@ -78,18 +20,12 @@ if (navbarMenuIcon) {
         navbarBtns.style.overflow = "hidden";
         const animation = navbarBtns.animate(
             {
-                // display: ["none", "flex"],
-                // opacity: [0, 1],
                 maxHeight: [0, "200px"],
-                // transform: ["scaleY(0)", "scaleX(1)"],
             },
             {
                 fill: "both",
                 duration: 500,
                 easing: 'ease'
-                // timeline,
-                // rangeStart: "cover 0%",
-                // rangeEnd: "cover 100%",
             },
         );
         
@@ -106,9 +42,6 @@ if (navbarMenuIcon) {
                 },
             );
         });
-
-
-        
 
         if (window.innerWidth < 768) {
             document.querySelector(".navbar_buttons").style.paddingTop = '30px';
@@ -127,14 +60,10 @@ if (navbarCloseMobileMenuBtn) {
             {
                 opacity: [0, 1],
                 maxHeight: ["200px", 0],
-                // transform: ["scaleY(0)", "scaleX(1)"],
             },
             {
                 fill: "both",
                 duration: 500,
-                // timeline,
-                // rangeStart: "cover 0%",
-                // rangeEnd: "cover 100%",
             },
         );
 

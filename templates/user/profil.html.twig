@@ -69,7 +69,7 @@
                     <p>Aucun trajet.</p>
                 {% else %}
                     {% for trajet in trajetsAVenir %}
-                        <a href="{{ path('app_trajet', { id: trajet.datas.id }) }}" class="trajet">
+                        <a class="trajet" href="{{ path('app_trajet', { id: trajet.datas.id }) }}" >
                             <div class="trajet-date-type">
                                 {{ trajet.timeDatas.dateDepart }}
                                 {% set isChauffeur = (trajet.datas.chauffeur == app.user) %}
